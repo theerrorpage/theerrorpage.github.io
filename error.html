@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Primary Meta Tags -->
+<title>The Error Page</title>
+<meta name="title" content="The Error Page" />
+<meta name="description" content="This is the error page, it randomly shows a error 404 meme" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://theerrorpage.github.io/" />
+<meta property="og:title" content="The Error Page" />
+<meta property="og:description" content="This is the error page, it randomly shows a error 404 meme" />
+
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://theerrorpage.github.io/" />
+<meta property="twitter:title" content="The Error Page" />
+<meta property="twitter:description" content="This is the error page, it randomly shows a error 404 meme" />
+<link href="favicon.ico" rel="icon" type="image/x-icon">
+
+<!-- Meta Tags Generated with https://metatags.io -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column; /* Align items in a column */
+            overflow: hidden;
+            background: black;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally */
+            flex: 1; /* Allow container to expand and fill available space */
+        }
+        img {
+            max-width: 100%;
+            max-height: calc(100vh - 60px); /* Adjust max-height to fit image and text */
+            display: block;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin: 20px 0; /* Margin to add space around text */
+            font-size: 2rem; /* Font size for the heading */
+            line-height: 1.2; /* Line height for better spacing */
+        }
+        .hidden {
+            display: none; /* Hide the element */
+        }
+        .timer {
+            color: white; /* Ensure the timer text is white */
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://joshy.lol/error.php" alt="Centered Image" id="errorImage">
+        <h1 id="welcomeMessage">
+            Welcome to the error page, you can refresh to get a random 404 meme
+        </h1>
+        <div id="timerContainer">
+            <p id="timerText" class="timer"></p>
+        </div>
+    </div>
+    <script>
+        const timerDuration = 5; // Timer duration in seconds
+        const timerText = document.getElementById('timerText');
+        const timerContainer = document.getElementById('timerContainer');
+
+        // Function to update timer text and handle countdown
+        function startTimer(seconds) {
+            let timeRemaining = seconds;
+            const interval = setInterval(() => {
+                timerText.textContent = `You will be refreshed in ${timeRemaining} seconds`;
+                timeRemaining -= 1;
+                if (timeRemaining < 0) {
+                    clearInterval(interval);
+                    // Refresh the page
+                    window.location.reload();
+                }
+            }, 1000);
+        }
+
+        // Check if the user has visited before
+        if (sessionStorage.getItem('visitedBefore')) {
+            // If yes, hide the welcome message but show the image
+            document.getElementById('welcomeMessage').classList.add('hidden');
+            document.getElementById('errorImage').style.display = 'block';
+        } else {
+            // If not, show the welcome message and hide the image
+            sessionStorage.setItem('visitedBefore', 'true');
+            document.getElementById('errorImage').style.display = 'none';
+        }
+        
+        // Show the timer and start the countdown in both cases
+        timerContainer.classList.remove('hidden');
+        startTimer(timerDuration);
+    </script>
+</body>
+</html>
